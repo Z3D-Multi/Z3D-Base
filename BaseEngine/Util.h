@@ -16,6 +16,7 @@ namespace Z3D_Base {
 class Util {
 public:
 	static const float* createFlippedBuffer(Vertex *vertices, int number);
+	static const unsigned int* createFlippedBuffer(unsigned int *indices, int number);
 	static const float* createFlippedBuffer(Matrix4f matrix);
 };
 

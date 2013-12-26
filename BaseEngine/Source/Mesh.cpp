@@ -14,7 +14,7 @@ namespace Z3D_Base {
 Mesh::Mesh() {
 #ifdef glGenBuffers
 	glGenBuffers(1,(GLuint *)&this->vbo);
-	glGenBuffers(1,(GLuint *)&this->ibo);
+	glGenBuffers(1,&this->ibo);
 #endif
 
 	if(!this->vbo)
@@ -25,16 +25,16 @@ Mesh::Mesh() {
 
 Mesh::~Mesh() {
 #ifdef glGenBuffers
-	const GLuint *buffers = new GLuint[1] {(GLuint)vbo};
+	const GLuint *buffers = new GLuint[2] {(GLuint)vbo,ibo};
 	if(glIsBuffer(vbo))
 		glDeleteBuffers(1,buffers);
 	delete(buffers);
 #endif
 }
 
-void Mesh::addVertices(Vertex *vertices, int number)
+void Mesh::addVertices(Vertex *vertices, int number, unsigned int *indices, int indexNumber)
 {
-	this->size = number * Vertex::SIZE;
+	this->size = indexNumber;
 
 #ifdef glBindBuffer
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -44,11 +44,13 @@ void Mesh::addVertices(Vertex *vertices, int number)
 		throw 10;
 	const float* x = Util::createFlippedBuffer(vertices,number);
 	//Add Buffer Data://
-	glBufferData(GL_ARRAY_BUFFER,sizeof(float)*this->size,(void *)x,GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(float)*number * Vertex::SIZE,(void *)x,GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*indexNumber, (GLubyte *)Util::createFlippedBuffer(indices,indexNumber), GL_STATIC_DRAW);
 #else
 #error Undefined Buffers
 #endif
-
 }
 
 void Mesh::draw()
@@ -62,8 +64,10 @@ void Mesh::draw()
 	if(glIsBuffer(vbo) != GL_TRUE)
 		throw 10;
 
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+
 	//Draw the data://
-	glDrawArrays(GL_TRIANGLES,0,this->size);
+	glDrawElements(GL_TRIANGLES,this->size,GL_UNSIGNED_INT,0);
 
 	glDisableVertexAttribArray(0);
 #else

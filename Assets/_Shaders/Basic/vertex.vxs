@@ -5,9 +5,8 @@ uniform mat4 transform;
 void main()
 {
 		
-	posInfo = vec4(clamp(position, 0.0, 1.0), 1.0);
-
-	gl_Position = gl_ModelViewProjectionMatrix  *transform* vec4(position,1.0);
+	posInfo = clamp(transform*vec4(position, 1.0),0.0f,1.0f);
+	gl_Position = gl_ModelViewProjectionMatrix * transform*vec4(position,1.0);
 
 }
 

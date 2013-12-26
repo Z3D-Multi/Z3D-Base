@@ -9,20 +9,21 @@
 #define MESH_H_
 
 #include "Vertex.h"
+#include <GL/gl.h>
 
 namespace Z3D_Base {
 
 class Mesh {
 private:
 	int vbo;
-	int ibo;
+	GLuint ibo;
 	unsigned int size;
-
 public:
 	Mesh();
 	virtual ~Mesh();
 
-	void addVertices(Vertex *vertices, int number);
+	void addVertices(Vertex *vertices, int number, unsigned int* indices,
+			int indexNumber);
 	void draw();
 };
 

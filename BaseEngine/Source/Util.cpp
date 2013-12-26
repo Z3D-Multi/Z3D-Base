@@ -6,6 +6,7 @@
  */
 
 #include <vector>
+#include <string.h>
 #include "../Util.h"
 
 namespace Z3D_Base {
@@ -36,4 +37,14 @@ const float* Z3D_Base::Util::createFlippedBuffer(Matrix4f matrix) {
 
 }
 
+const unsigned int* Z3D_Base::Util::createFlippedBuffer(unsigned int* indices, int number) {
+	unsigned int *temp = new unsigned int[number];
+
+	for (register int i = 0; i < number; ++i)
+		temp[i]=indices[i];
+
+	return temp;
+}
+
 } /* namespace Z3D_Base */
+

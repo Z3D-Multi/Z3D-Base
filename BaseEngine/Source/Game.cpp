@@ -18,13 +18,17 @@
 namespace Z3D_Base {
 
 Game::Game() {
-	Vertex *data = new Vertex[3] {
+	Vertex *vertices = new Vertex[4] {
 		Vertex(Vector3f(-1.0f,-1.0f,0.0f)),
 		Vertex(Vector3f(0.0f,1.0f,0.0f)),
 		Vertex(Vector3f(1.0f,-1.0f,0.0f)),
+		Vertex(Vector3f(0.0f,0.0f,1.0f))
 	};
 
-	this->mesh.addVertices(data,3);
+	unsigned int indices[12] {3,2,1,3,1,0,0,2,3,0,1,2};
+
+
+	this->mesh.addVertices(vertices,4,indices,sizeof(indices)/sizeof(unsigned int));
 
 	this->shader.addFragmentShader(ResourceLoader::loadShader("Assets/_Shaders/Basic/fragment.fxs").c_str());
 	this->shader.addVertexShader(ResourceLoader::loadShader("Assets/_Shaders/Basic/vertex.vxs").c_str());
@@ -46,14 +50,14 @@ float amount;
 void Game::update()
 {
 	static float temp;
-	temp += Time::getDelta()*200.0f;
+	temp += Time::getDelta()*100.0f;
 
 
 	amount = (float)Mathf::fastSin(temp);
 
 	this->transform.setTranslation(amount,0.0f,0.0f);
-	this->transform.setRotation(0.0f,0.0f,amount*180.0f);
-	this->transform.setScale(amount,amount,0.0f);
+	this->transform.setRotation(Vector3f(0.0f,1.0f,0.0f)*amount*180.0f);
+	//this->transform.setScale(amount,1.0f,1.0f);
 
 	if(Input::geyKeyDown(GLUT_KEY_UP,true))
 		std::cout << std::endl << powf((float)Mathf::fastSin(temp),2.0f) << std::endl;
