@@ -1,0 +1,8 @@
+#version 330
+out vec4 fragColor;
+varying vec4 posInfo;
+
+void main()
+{
+	fragColor = posInfo;
+}
