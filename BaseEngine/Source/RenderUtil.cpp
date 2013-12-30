@@ -35,10 +35,11 @@ void RenderUtil::initGraphics()
 {
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
 
+	glEnable(GL_DEPTH_TEST);
+
 	glFrontFace(GL_CW);
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
 
 	//TODO: Depth clamp
 	glEnable(GL_FRAMEBUFFER_SRGB);

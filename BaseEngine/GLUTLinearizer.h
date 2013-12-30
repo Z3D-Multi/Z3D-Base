@@ -75,7 +75,6 @@ void runGlutInit()
 	glutSpecialFunc(specialKeyPressed);
 	glutMouseFunc(fixMouse);
 	glutPassiveMotionFunc(mouseMotion);
-//	glutPassiveMotionFunc(mouseMotion);
 }
 
 }

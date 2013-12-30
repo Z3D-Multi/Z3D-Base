@@ -11,6 +11,8 @@
 
 namespace Z3D_Base {
 
+float *floatArray;
+
 Mesh::Mesh() {
 #ifdef glGenBuffers
 	glGenBuffers(1,(GLuint *)&this->vbo);
@@ -28,6 +30,7 @@ Mesh::~Mesh() {
 	const GLuint *buffers = new GLuint[2] {(GLuint)vbo,ibo};
 	if(glIsBuffer(vbo))
 		glDeleteBuffers(1,buffers);
+
 	delete(buffers);
 #endif
 }
@@ -42,9 +45,9 @@ void Mesh::addVertices(Vertex *vertices, int number, unsigned int *indices, int 
 	//Check if buffer bind was successful://
 	if(!glIsBuffer(vbo))
 		throw 10;
-	const float* x = Util::createFlippedBuffer(vertices,number);
+	floatArray = (float *)Util::createFlippedBuffer(vertices,number);
 	//Add Buffer Data://
-	glBufferData(GL_ARRAY_BUFFER,sizeof(float)*number * Vertex::SIZE,(void *)x,GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(float)*number * Vertex::SIZE,(void *)floatArray,GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*indexNumber, (GLubyte *)Util::createFlippedBuffer(indices,indexNumber), GL_STATIC_DRAW);

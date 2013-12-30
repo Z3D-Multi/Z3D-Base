@@ -18,6 +18,7 @@ private:
 	int vbo;
 	GLuint ibo;
 	unsigned int size;
+
 public:
 	Mesh();
 	virtual ~Mesh();
