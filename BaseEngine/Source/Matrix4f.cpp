@@ -42,7 +42,7 @@ void Matrix4f::set(int x, int y, float val) {
 
 Matrix4f Matrix4f::operator*(const Matrix4f& rhs) {
 	Matrix4f temp;
-	temp.m[3][3]=0.0f;
+	temp.m[3][3] = 0.0f;
 
 	for (register int i = 0; i < 4; ++i)
 		for (register int j = 0; j < 4; ++j)
@@ -62,49 +62,8 @@ Matrix4f Matrix4f::operator=(const Matrix4f& rhs) {
 
 Matrix4f::Matrix4f(float x, float y, float z, int type) {
 
-	Vector3f temp(x,y,z);
-	Matrix4f(temp,(int)type);
-
-/*
-	switch (type) {
-	case MATRIX4F_INIT_WITH_TRANSLATION:
-		Matrix4f(false);
-		this->m[0][3] = x;
-		this->m[1][3] = y;
-		this->m[2][3] = z;
-		this->m[3][3] = 1;
-		break;
-
-	case MATRIX4F_INIT_WITH_ROTATION:
-		Vector3f axis(x, y, z);
-		float theta = axis.length() * __MATHF_RADIAN_CONVERSION_FACTOR;
-
-		axis.normalize();
-
-		float cT = cos(theta);
-		float sT = sin(theta);
-		float cC = (1 - cT);
-		float temp[4][4] = { { cT + pow(axis.getX(), 2) * cC, axis.getX()
-				* axis.getY() * cC - axis.getZ() * sT, axis.getX() * axis.getZ()
-				* cC + axis.getY() * sT, 0 }, { axis.getY() * axis.getX() * cC
-				+ axis.getZ() * sT, cT + pow(axis.getY(), 2) * cC, axis.getZ()
-				* axis.getY() * cC - axis.getX() * sT, 0 }, { axis.getZ()
-				* axis.getX() * cC - axis.getY() * sT, axis.getY() * axis.getZ()
-				* cC + axis.getX() * sT, cT + pow(axis.getZ(), 2) * cC, 0 }, {
-				0, 0, 0, 1 } };
-
-		memcpy(this->m, temp, 4 * 4 * sizeof(float));
-		break;
-
-	case MATRIX4F_INIT_WITH_SCALE:
-		Matrix4f();
-		this->m[0][0] = 1.0f;
-		this->m[1][1] = 1.0f;
-		this->m[2][2] = 1.0f;
-		break;
-
-	}
-*/
+	Vector3f temp(x, y, z);
+	Matrix4f(temp, (int) type);
 }
 
 Matrix4f::Matrix4f(Vector3f &axis, int type) {
@@ -138,11 +97,11 @@ Matrix4f::Matrix4f(Vector3f &axis, int type) {
 		break;
 
 	case MATRIX4F_INIT_WITH_SCALE:
-			this->init(false);
-			this->m[0][0] = axis.getX();
-			this->m[1][1] = axis.getY();
-			this->m[2][2] = axis.getZ();
-			break;
+		this->init(false);
+		this->m[0][0] = axis.getX();
+		this->m[1][1] = axis.getY();
+		this->m[2][2] = axis.getZ();
+		break;
 
 	default:
 		init(true);
@@ -152,13 +111,34 @@ Matrix4f::Matrix4f(Vector3f &axis, int type) {
 
 void Matrix4f::init(bool identity) {
 	for (register int i = 0; i < 4; ++i)
-			for (register int j = 0; j < 4; ++j)
-				if (i == j)
-					this->m[i][j] = identity * 1.0f;
-				else
-					this->m[i][j] = 0.0f;
+		for (register int j = 0; j < 4; ++j)
+			if (i == j)
+				this->m[i][j] = identity * 1.0f;
+			else
+				this->m[i][j] = 0.0f;
 
-		this->m[3][3] = 1.0f;
+	this->m[3][3] = 1.0f;
+}
+
+Matrix4f::Matrix4f(const Vector3f& forward, const Vector3f& up) {
+
+	Vector3f f = forward, u = up;
+	f.normalize();
+	u.normalize();
+
+	Vector3f r = u * f;
+	r.normalize();
+	u = f * r;
+
+	this->m[0][0] = r.getX();	this->m[0][1] = r.getY(); 	this->m[0][2] = r.getZ();
+	this->m[1][0] = u.getX();	this->m[1][1] = u.getY(); 	this->m[1][2] = u.getZ();
+	this->m[2][0] = f.getX();	this->m[2][1] = f.getY(); 	this->m[2][2] = f.getZ();
+
+	for(register int i=0;i<3;++i)
+		this->m[3][i]=this->m[i][3]=0.0f;
+
+	this->m[3][3]=1.0f;
+
 }
 
 Vector3f Matrix4f::operator*(const Vector3f& rhs) {

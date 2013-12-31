@@ -10,6 +10,7 @@
 
 #include "Vector3f.h"
 #include "Matrix4f.h"
+#include "Camera.h"
 
 namespace Z3D_Base {
 
@@ -18,6 +19,7 @@ private:
 	Vector3f rotation;
 	Vector3f translation;
 	Vector3f scale;
+	static Camera camera;
 
 public:
 	/*
@@ -40,6 +42,8 @@ public:
 	const Vector3f& getScale() const;
 	void setScale(const Vector3f& scale);
 	void setScale(float x, float y, float z);
+	static Camera& getCamera();
+	void setCamera(Camera& camera);
 
 	Matrix4f getTransform();
 };

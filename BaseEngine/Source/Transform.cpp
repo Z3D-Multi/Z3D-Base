@@ -9,6 +9,8 @@
 
 namespace Z3D_Base {
 
+Camera Transform::camera;
+
 Transform::Transform() {
 	this->scale.setXYZ(1.0f, 1.0f, 1.0f);
 }
@@ -28,11 +30,21 @@ void Transform::setScale(float x, float y, float z) {
 	this->scale.setXYZ(x, y, z);
 }
 
+Camera& Transform::getCamera(){
+	return Transform::camera;
+}
+
+void Transform::setCamera(Camera& camera) {
+	Transform::camera = camera;
+}
+
 Matrix4f Transform::getTransform() {
 
 	Matrix4f translation(this->translation, MATRIX4F_INIT_WITH_TRANSLATION);
 	Matrix4f rotation(this->rotation, MATRIX4F_INIT_WITH_ROTATION);
 	Matrix4f scale(this->scale, MATRIX4F_INIT_WITH_SCALE);
+//	Matrix4f cameraRotation(this->camera.getForward(), this->camera.getUp());
+//	Matrix4f cameraTranslation(-this->camera.getPos().getX(),-this->camera.getPos().getY(),-this->camera.getPos().getZ(),MATRIX4F_INIT_WITH_TRANSLATION);
 
 	return translation * rotation * scale;
 }

@@ -32,6 +32,8 @@ public:
 	Matrix4f(float x, float y, float z, int type);
 	//Constructor for vector3f scaling rotation and translation://
 	Matrix4f(Vector3f &axis, int type);
+	//Constructor for vector3f camera Position://
+	Matrix4f(const Vector3f &forward,const Vector3f &up);
 	//Copy Constructor://
 	Matrix4f(const Matrix4f& rhs);
 	virtual ~Matrix4f();

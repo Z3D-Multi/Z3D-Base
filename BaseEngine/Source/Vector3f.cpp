@@ -124,7 +124,8 @@ Vector3f Vector3f::rotate(float angle, Vector3f axis)
 				(axis.z*axis.y*cTs + axis.x*sT)*this->y	+
 				(cos(theta)+pow(axis.z,2)*cTs)*this->z ;
 
-	this->setXYZ(Mathf::round(x),Mathf::round(y),Mathf::round(z));
+	//this->setXYZ(Mathf::round(x),Mathf::round(y),Mathf::round(z));
+	this->setXYZ(x,y,z);
 	return *this;
 }
 
