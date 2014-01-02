@@ -24,6 +24,7 @@ using namespace Z3D_Base;
 static MainComponent *current;
 static long lastTime;
 static double unprocessedTime;
+
 /*
  *
  * Member Functions:
@@ -31,8 +32,6 @@ static double unprocessedTime;
  *
  */
 MainComponent::MainComponent(int* argc, char** argv) {
-	// TODO Auto-generated constructor stub
-
 	//Generate glut settings
 	glutInit(argc, argv);
 	glutDisplayFunc(runPointer);

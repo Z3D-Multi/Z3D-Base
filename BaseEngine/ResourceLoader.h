@@ -25,6 +25,7 @@
 
 #include <string>
 #include "Mesh.h"
+#include "Texture.h"
 
 namespace Z3D_Base {
 
@@ -37,10 +38,13 @@ public:
 
 	static std::string loadShader(const char* fileName);
 	static Mesh *loadMesh(const char* fileName);
+	static Texture *loadTexture(const char* fileName);
 
 private:
 	static std::string loadFile(const char* fileName);
 	static Mesh *loadMeshOBJ(std::string filePath);
+
+	static std::string getFileExtension(const char* fileName);
 
 	//Resource Loader Helping struct://
 	struct loaderHelper {

@@ -11,6 +11,7 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Transform.h"
+#include "Texture.h"
 
 namespace Z3D_Base {
 
@@ -19,6 +20,7 @@ private:
 	Mesh mesh;
 	Shader shader;
 	Transform transform;
+	Texture texture;
 
 public:
 	Game();

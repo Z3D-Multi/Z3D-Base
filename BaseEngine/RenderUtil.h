@@ -19,6 +19,8 @@ public:
 	static void initGraphics();
 
 	static char* getOpenGLVersion();
+
+	static void setTextures(bool enabled);
 };
 
 } /* namespace Z3D_Base */

@@ -21,6 +21,8 @@ const float* Util::createFlippedBuffer(Vertex *vertices, int number) {
 		temp[j++] = vertices[i].getPos().getX();
 		temp[j++] = vertices[i].getPos().getY();
 		temp[j++] = vertices[i].getPos().getZ();
+		temp[j++] = vertices[i].getTextureCoord().getX();
+		temp[j++] = vertices[i].getTextureCoord().getY();
 	}
 
 	return (const float*)temp;

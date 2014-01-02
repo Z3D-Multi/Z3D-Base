@@ -48,6 +48,8 @@ void RenderUtil::initGraphics()
 	glEnable(GL_CULL_FACE);
 
 	//TODO: Depth clamp
+
+	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_FRAMEBUFFER_SRGB);
 
 }
@@ -55,6 +57,13 @@ void RenderUtil::initGraphics()
 char* RenderUtil::getOpenGLVersion()
 {
 	return (char *)glGetString(GL_VERSION);
+}
+
+void RenderUtil::setTextures(bool enabled) {
+	if(enabled)
+		glEnable(GL_TEXTURE_2D);
+	else
+		glDisable(GL_TEXTURE_2D);
 }
 
 } /* namespace Z3D_Base */
