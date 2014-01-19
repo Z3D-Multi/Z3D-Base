@@ -165,7 +165,9 @@ void Shader::setUniform(const char* uniformName, Vector3f value) {
 
 void Shader::setUniform(const char* uniformName, Matrix4f value) {
 #ifdef glCreateProgram
-	glUniformMatrix4fv(this->uniformMap[uniformName], 1,true,Util::createFlippedBuffer(value));
+	int n= this->uniformMap[uniformName];
+	const float *matrix =  Util::createFlippedBuffer(value);
+	glUniformMatrix4fv(n, 1,true,matrix);
 #else
 #error Load Shaders
 #endif
