@@ -7,6 +7,7 @@
 
 #include "../Shader.h"
 #include "../Util.h"
+#include "../Debug.h"
 
 #include <GL/glew.h>
 #include <GL/gl.h>
@@ -131,7 +132,7 @@ void Shader::addUniform(const char* uniform) {
 
 	this->uniformMap[uniform] = uniformLocation;
 	if(this->uniformMap[uniform]!=uniformLocation)
-		throw 10;
+	throw 10;
 #else
 #error Load Shaders
 #endif
@@ -166,8 +167,16 @@ void Shader::setUniform(const char* uniformName, Vector3f value) {
 void Shader::setUniform(const char* uniformName, Matrix4f value) {
 #ifdef glCreateProgram
 	int n= this->uniformMap[uniformName];
-	const float *matrix =  Util::createFlippedBuffer(value);
+	const float *matrix = Util::createFlippedBuffer(value);
 	glUniformMatrix4fv(n, 1,true,matrix);
+
+	GLenum errCode;
+	const GLubyte *errString;
+
+	if ((errCode = glGetError()) != GL_NO_ERROR) {
+		errString = gluErrorString(errCode);
+		Debug::error(std::string("OpenGL Error: ")+std::string((const char*)errString));
+	}
 #else
 #error Load Shaders
 #endif

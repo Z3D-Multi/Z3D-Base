@@ -9,6 +9,7 @@
 #include "../Input.h"
 #include "../Time.h"
 #include "../Debug.h"
+#include <string>
 namespace Z3D_Base {
 
 const Vector3f Camera::worldUp = Vector3f(0.0f, 1.0f, 0.0f);
@@ -78,16 +79,22 @@ void Camera::rotateX(float angle) {
 	Vector3f HAxis = (Vector3f) Camera::worldUp * this->forward;
 	HAxis.normalize();
 
-	this->forward.rotate(angle, HAxis).normalize();
+	this->forward.rotate(angle, HAxis);
+	this->forward.normalize();
 	this->up = this->forward * HAxis;
 	this->up.normalize();
+
+
+	std::cout <<  " (" << this->forward.getX() << " "<< this->forward.getY() << " " << this->forward.getZ() << ")" << std::endl;
+	//<< "Cam: " << " (" this->up.getX() << " "<< this->up.getY() << " " << this->up.getZ() << ")";
 }
 
 void Camera::rotateY(float angle) {
 	Vector3f HAxis = (Vector3f) Camera::worldUp * this->forward;
 	HAxis.normalize();
 
-	this->forward.rotate(angle, Camera::worldUp).normalize();
+	this->forward.rotate(angle, Camera::worldUp);
+	this->forward.normalize();
 	this->up = this->forward * HAxis;
 	this->up.normalize();
 
@@ -96,7 +103,8 @@ void Camera::rotateY(float angle) {
 void Camera::rotateZ(float angle) {
 
 	Vector3f ZAxis = (Vector3f) Camera::worldUp;
-	this->forward.rotate(angle, ZAxis).normalize();
+	this->forward.rotate(angle, ZAxis);
+	this->forward.normalize();
 
 }
 
@@ -112,14 +120,13 @@ void Camera::input() {
 		this->rotateX(fRotAmt);
 
 	if (Input::geyKey(GLUT_KEY_LEFT, true))
-		this->rotateZ(fRotAmt);
+		this->rotateY(fRotAmt);
 
 	if (Input::geyKey(GLUT_KEY_RIGHT, true))
-		this->rotateZ(-fRotAmt);
+		this->rotateY(-fRotAmt);
 
 	if (Input::geyKey('w', false))
 		this->move(this->forward,fMovAmt);
-
 
 	if (Input::geyKey('s', false))
 		this->move(this->forward,-fMovAmt);

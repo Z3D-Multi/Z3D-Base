@@ -7,6 +7,10 @@
 
 #include "../Vector3f.h"
 #include "../Mathf.h"
+#include <glm/glm.hpp>
+#include <glm/core/type_mat4x4.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <cmath>
 #include <iostream>
 
@@ -78,8 +82,8 @@ float Vector3f::length()
 Vector3f Vector3f::normalize()
 {
 
-	float lenInverse = length();
-	if(lenInverse<=0.0f)
+	float lenInverse = this->length();
+	if(lenInverse==0.0f)
 		return *this;
 
 	lenInverse = 1/lenInverse;
@@ -103,29 +107,11 @@ Vector3f Vector3f::crossProduct(Vector3f a,Vector3f b)
 Vector3f Vector3f::rotate(float angle, Vector3f axis)
 {
 
-	float theta = angle * PI / 180.0f;
-
-	float cT  = cos(theta);
-	float sT  = sin(theta);
-	float cTs = (1.0f-cos(theta));
-
 	axis.normalize();
 
-	float x =	(cT+pow(axis.x,2)*cTs)*this->x +
-				(axis.x*axis.y*cTs - axis.z*sT)*this->y +
-				(axis.x*axis.z*cTs + axis.y*sT)*this->z	;
+	glm::vec4 pos = glm::toMat4(glm::angleAxis(angle,glm::vec3(axis.getX(),axis.getY(),axis.getZ()))) * glm::vec4(this->getX(),this->getY(),this->getZ(),1.0f);
 
-
-	float y =	(axis.x*axis.y*cTs + axis.z*sT)*this->x +
-				(cos(theta)+pow(axis.y,2)*cTs)*this->y +
-				(axis.y*axis.z*cTs - axis.x*sT)*this->z	;
-
-	float z =	(axis.z*axis.x*cTs - axis.y*sT)*this->x +
-				(axis.z*axis.y*cTs + axis.x*sT)*this->y	+
-				(cos(theta)+pow(axis.z,2)*cTs)*this->z ;
-
-	//this->setXYZ(Mathf::round(x),Mathf::round(y),Mathf::round(z));
-	this->setXYZ(x,y,z);
+	this->setXYZ(pos.x,pos.y,pos.z);
 	return *this;
 }
 

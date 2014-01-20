@@ -55,7 +55,6 @@ void Z3D_Jupiter::ParticleForceRegistry::updateAllForcesAndParticles(
 		for (; i != registrations.end(); i++) {
 			i->fg->updateForce(i->particle, duration);
 			i->particle->integrate(duration);
-
 		}
 }
 

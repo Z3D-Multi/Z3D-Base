@@ -11,7 +11,7 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Transform.h"
-#include "Texture.h"
+//#include "Texture.h"
 #include "GameObject.h"
 #include "../JupiterEngine/stdi.h"
 
@@ -19,11 +19,11 @@ namespace Z3D_Base {
 
 class Game {
 private:
-	GameObject player;
-	Mesh mesh;
-	Shader shader;
-	Transform transform;
-	Texture texture;
+	GameObject *player;
+	Mesh *mesh;
+	Shader *shader;
+	Transform *transform;
+//	Texture texture;
 	Z3D_Jupiter::Particle *particle;
 	Z3D_Jupiter::ParticleForceRegistry *registry;
 	Z3D_Jupiter::ParticleGravity *gravity;
